@@ -1,0 +1,72 @@
+from socket import timeout
+from tkinter import *
+from plyer import notification#Plyer is a Python library for accessing features of your hardware / platforms.
+from tkinter import messagebox
+from PIL import Image, ImageTk
+import time
+
+#function for background mechanism of notification
+def get_details():
+    get_title=title.get()
+    get_msg=msg.get()
+    get_time=time1.get()
+
+    if get_title =="" or get_msg=="" or get_time=="":
+        messagebox.showerror("Alert","All fields are required !")#it show a pop up mesaage as a warning for empty fields  
+    else:
+        int_time=int(float(get_time))
+        min_to_sec=int_time*60
+        messagebox.showinfo("notifier set","set notification ?")#it will show a pop up message to ask you really want to set reminder
+        t.destroy()
+        time.sleep(min_to_sec)#it will sleep the program its time to remind
+        notification.notify(title=get_title,
+        message=get_msg,
+        app_name="Notifier",
+        app_icon="hey.ico",
+        toast=True,
+        timeout=10)#notofication function to notify and run in background
+
+
+
+t=Tk()
+t.title('Notifier')
+t.geometry("500x300")
+t.minsize(500,300)
+t.maxsize(500,300)
+img=Image.open("alarm.png")
+tkimage=ImageTk.PhotoImage(img)
+img_label=Label(t,image=tkimage).grid()
+
+#*******label as Title*******
+t_label=Label(t,text="Title to notify",font=("poppins",10))#it writes the string given in the bracket
+t_label.place(x=12,y=70)#this line of code specifies the position of the text
+#*****ENTRY TITLE******
+title=Entry(t,width="25",font=("poppins",13))#this line creates a meassage box of given width
+title.place(x=123,y=70)
+
+
+#*****Label Message******
+m_label=Label(t,text="Display Message",font=("poppins",10))#to display the given meassage as label
+m_label.place(x=12,y=120)
+#*****Entry Message******
+msg=Entry(t,width="25",font=("poppins",13))
+msg.place(x=123,y=120)
+
+
+#******Label time********
+time_label=Label(t,text="Set Time",font=("poppins",10))
+time_label.place(x=12,y=175)
+#******Entry time********
+time1=Entry(t,width="5",font=("poppins",13))
+time1.place(x=123,y=175)
+
+
+#******Label min*********
+time_min_label=Label(t,text="min",font=("poppins",10))
+time_min_label.place(x=175,y=180)
+#******Button********
+but=Button(t,text="Set Notification",font=("poppins",10,"bold"),fg="#ffffff",bg="#528DFF",width=20,relief="raised",command=get_details)
+but.place(x=170,y=230)
+
+
+t.mainloop()
